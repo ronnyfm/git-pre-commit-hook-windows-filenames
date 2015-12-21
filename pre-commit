@@ -8,7 +8,7 @@
 # - http://stackoverflow.com/a/62888
 # - http://msdn.microsoft.com/en-us/library/aa365247.aspx
 #
-# To enable this hook, rename this file to "pre-commit", move it to ".git/hook" and make it executable.
+# To enable this hook, move it to your local ".git/hook" and make it executable.
 
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
@@ -46,10 +46,10 @@ git diff --cached --name-only --diff-filter=A -z $against | while IFS= read -r -
   # File name is all periods
   filenameallperiods=$(echo -n "$filename" | LC_ALL=C grep -E '^\.+$' | wc -c)
 
-  # Check complete path length to be smaller than 260 characters
+  # Check complete path length to be smaller than 245 characters (Restriction on Windows 260, leaving room for drive+folder name)
   # This test can not be really accurate as we don't know if PWD on the windows filesystem itself is not very long 
   absolutepathtoolong=0
-  if test $(echo "$filename" | wc -c) -ge 260
+  if test $(echo "$filename" | wc -c) -ge 245
   then
     absolutepathtoolong=1
   fi
